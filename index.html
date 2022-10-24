@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <link rel="stylesheet" href="./css/common.css">
+  <title>洁了个洁</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1 class="tit">第 {{ level }} 关</h1>
+    <div class="wrap">
+      <div class="container" :style="setContainerStyle()">
+        <div class="card-wrap" v-for="(item, index) in cards" :key="index" :style="setCardStyle(item)">
+          <div class="card" :class="[item.not && 'is-allow', item.id]" :style="setAnimation(item)"
+            @click="clickCard(item, index)">
+            <span>{{ item.icon }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-slot"></div>
+    <div class="btn-list">
+      <span class="btn" @click="handleReset">
+        <img src="./images/reset.png">
+      </span>
+      <span class="btn" @click="handleSwitch('prev')">
+        <img src="./images/arrow-left.png">
+      </span>
+      <span class="btn" @click="handleSwitch('next')">
+        <img src="./images/arrow-right.png">
+      </span>
+    </div>
+  </div>
+  <script src="./plugins/vue.global.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+
+</html>
