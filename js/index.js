@@ -18,7 +18,7 @@ const App = {
             } = config;
             return `height: ${base * row}px; width: ${base * col}px`;
         }
-        
+
         const setCardStyle = ({
             x,
             y
@@ -27,7 +27,7 @@ const App = {
               transform: translateX(${x}px) translateY(${y}px);
             `;
         }
-        
+
         const setAnimation = ({
             id,
             clear,
@@ -57,13 +57,13 @@ const App = {
             const cardSlotDom = document.querySelector('.card-slot');
             data.cardSlotInfo = cardSlotDom.getBoundingClientRect();
         }
-        
+
         const config = reactive({
             base: 40,
             selectMaxLength: 7,
             maxCount: 3,
             animationTime: 400,
-            maxLevel: 10,
+            maxLevel: 13,
             row: 8,
             col: 8
         });
@@ -75,7 +75,7 @@ const App = {
             containerInfo: null,
             cardSlotInfo: null
         });
-        
+
         watch(() => data.level, () => {
             handleReset();
         });
@@ -89,7 +89,7 @@ const App = {
             data.select.clear();
             data.cards = [];
         });
-        
+
         const selectLength = computed(() => {
             let length = 0;
             data.select.forEach((item) => {
@@ -97,17 +97,17 @@ const App = {
             })
             return length;
         });
-        
+
         const defaultIcons = ['盛', '洁', '节', '日', '快', '乐', '你', '爱', '你', '一', '生', '世'];
         const icons = computed(() => {
             return defaultIcons.slice(0, 2 * data.level);
         });
-        
+
         const defaultOffsetValue = [7, -7, 20, -20, 25, -25, 33, -33, 40, -40];
         const defaultOffsetValueLength = defaultOffsetValue.length;
-        
+
         const defaultRounds = [3, 6, 9, 3, 6, 3, 3, 6, 3];
-        
+
         const init = () => {
             data.select.clear();
             for (const i in icons.value) {
@@ -118,7 +118,7 @@ const App = {
             }
             checkShading();
         }
-        
+
         const createCardInfo = (icon) => {
             const offset = defaultOffsetValue[Math.floor(defaultOffsetValueLength * Math.random())];
             const row = Math.floor(Math.random() * config.row);
@@ -170,13 +170,13 @@ const App = {
         const handleStart = () => {
             init();
         }
-        
+
         const handleReset = () => {
             data.cards.length = 0;
             data.select.clear();
             init();
         }
-        
+
         const handleSwitch = (type) => {
             if (type === 'prev') {
                 if (data.level === 1) {
@@ -244,7 +244,7 @@ const App = {
                 });
             });
         }
-        
+
         const checkSelectQueue = (cards) => {
             if (cards.length === config.maxCount) {
                 cards.forEach((item) => {
@@ -265,12 +265,9 @@ const App = {
                     if (!hasCards.length && level < config.maxLevel) {
                         alert(`通关啦, 开始第${level}关`);
                         data.level++;
-                    }
-                    if (!hasCards.length && level >= config.maxLevel) {
-                        {
-                            alert('恭喜游戏通关！方块嫌多，爱你永不嫌多！');
-                            data.level = 1;
-                        }
+                    } else if (!hasCards.length) {
+                        alert('恭喜游戏通关！方块嫌多，爱你永不嫌多！');
+                        data.level = 1;
                     }
                 }, config.animationTime + 100);
             }
